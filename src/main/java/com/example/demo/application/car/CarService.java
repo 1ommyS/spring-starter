@@ -81,8 +81,10 @@ public class CarService {
         Car findedCar = cars.stream().filter(elem -> elem.getId().equals(id)).findFirst().orElse(null);
         User byId = userService.getById(updateCarCommand.getUserId());
 
-        if (findedCar == null || byId == null) {
-            return null;
+        if (findedCar == null) {
+            throw new IllegalArgumentException("Авто с таким \"id\" не найдено");
+        } else if (byId == null) {
+            throw new IllegalArgumentException("Не найден новый владелец с таким \"id\"");
         }
 
         if (updateCarCommand.getTitle() != null && !updateCarCommand.getTitle().equals(findedCar.getTitle())) {

@@ -28,13 +28,13 @@ public class CarController {
     @GetMapping("{id}")
     public CarQuery getById(@PathVariable Integer id) {
         if (id == null) {
-            return new CarQuery();
+            throw new IllegalArgumentException("В запросе передан пустой параметр \"id\"");
         }
 
         Car byId = carService.getById(id);
 
         if (byId == null) {
-            return new CarQuery();
+            throw new IllegalArgumentException("Авто с таким \"id\" не существует в базе");
         }
 
         return modelMapper.map(byId, CarQuery.class);
@@ -44,7 +44,7 @@ public class CarController {
     public CarQuery createCar(@RequestBody CreateCarCommand createCarCommand) {
         Car car = carService.create(createCarCommand);
         if (car == null) {
-            return new CarQuery();
+            throw new RuntimeException("Произошла ошибка при создании авто");
         }
 
         return modelMapper.map(car, CarQuery.class);
@@ -53,9 +53,6 @@ public class CarController {
     @PutMapping("{id}")
     public CarQuery changeCar(@PathVariable Integer id, @RequestBody UpdateCarCommand updateCarCommand) {
         Car updatedCar = carService.update(id, updateCarCommand);
-        if (updatedCar == null) {
-            return new CarQuery();
-        }
         return modelMapper.map(updatedCar, CarQuery.class);
     }
 
