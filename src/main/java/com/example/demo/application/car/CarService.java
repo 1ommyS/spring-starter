@@ -78,35 +78,30 @@ public class CarService {
 
     public Car update(Integer id, UpdateCarCommand updateCarCommand) {
 
-        Car findedCar = cars.stream().filter(elem -> elem.getId().equals(id)).findFirst().orElse(null);
+        Car foundCar = cars.stream().filter(elem -> elem.getId().equals(id)).findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Авто с таким \\\"id\\\" не найдено\""));
         User byId = userService.getById(updateCarCommand.getUserId());
 
-        if (findedCar == null) {
-            throw new IllegalArgumentException("Авто с таким \"id\" не найдено");
-        } else if (byId == null) {
-            throw new IllegalArgumentException("Не найден новый владелец с таким \"id\"");
+        if (updateCarCommand.getTitle() != null && !updateCarCommand.getTitle().equals(foundCar.getTitle())) {
+            foundCar.setTitle(updateCarCommand.getTitle());
+        }
+        if (updateCarCommand.getPrice() != null && !updateCarCommand.getPrice().equals(foundCar.getPrice())) {
+            foundCar.setPrice(updateCarCommand.getPrice());
+        }
+        if (updateCarCommand.getCreatedAt() != null && !updateCarCommand.getCreatedAt().equals(foundCar.getCreatedAt())) {
+            foundCar.setCreatedAt(updateCarCommand.getCreatedAt());
+        }
+        if (updateCarCommand.getSelledAt() != null && !updateCarCommand.getSelledAt().equals(foundCar.getSelledAt())) {
+            foundCar.setSelledAt(updateCarCommand.getSelledAt());
+        }
+        if (updateCarCommand.getAmountOfSelled() != null && !updateCarCommand.getAmountOfSelled().equals(foundCar.getAmountOfSelled())) {
+            foundCar.setAmountOfSelled(updateCarCommand.getAmountOfSelled());
+        }
+        if (!foundCar.getOwner().equals(byId) ) {
+            foundCar.setOwner(byId);
         }
 
-        if (updateCarCommand.getTitle() != null && !updateCarCommand.getTitle().equals(findedCar.getTitle())) {
-            findedCar.setTitle(updateCarCommand.getTitle());
-        }
-        if (updateCarCommand.getPrice() != null && !updateCarCommand.getPrice().equals(findedCar.getPrice())) {
-            findedCar.setPrice(updateCarCommand.getPrice());
-        }
-        if (updateCarCommand.getCreatedAt() != null && !updateCarCommand.getCreatedAt().equals(findedCar.getCreatedAt())) {
-            findedCar.setCreatedAt(updateCarCommand.getCreatedAt());
-        }
-        if (updateCarCommand.getSelledAt() != null && !updateCarCommand.getSelledAt().equals(findedCar.getSelledAt())) {
-            findedCar.setSelledAt(updateCarCommand.getSelledAt());
-        }
-        if (updateCarCommand.getAmountOfSelled() != null && !updateCarCommand.getAmountOfSelled().equals(findedCar.getAmountOfSelled())) {
-            findedCar.setAmountOfSelled(updateCarCommand.getAmountOfSelled());
-        }
-        if (!findedCar.getOwner().equals(byId) ) {
-            findedCar.setOwner(byId);
-        }
-
-        return findedCar;
+        return foundCar;
     }
 
     public void delete(Integer id) {

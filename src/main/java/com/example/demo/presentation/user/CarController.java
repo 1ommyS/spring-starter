@@ -22,7 +22,7 @@ public class CarController {
 
     @GetMapping
     public List<CarQuery> getAll() {
-        return carService.getAll().parallelStream().map(elem -> modelMapper.map(elem, CarQuery.class)).collect(Collectors.toList());
+        return carService.getAll().parallelStream().map(elem -> modelMapper.map(elem, CarQuery.class)).toList();
     }
 
     @GetMapping("{id}")
