@@ -1,10 +1,19 @@
 package com.example.demo.domain.entity;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+
+// @AllArgsConstructor
+// @NoArgsConstructor
+// @Getter
+// @Setter
+// @ToString
+// @EqualsAndHashCode
+// @Builder
 public class User {
     private Integer id;
     private String name;
