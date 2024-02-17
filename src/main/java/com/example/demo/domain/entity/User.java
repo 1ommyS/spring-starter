@@ -1,14 +1,9 @@
 package com.example.demo.domain.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Objects;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 @ToString
@@ -18,6 +13,7 @@ import java.util.Objects;
 @AllArgsConstructor
 public class User {
     private Integer id;
+    private String name;
 
     @Override
     public boolean equals(Object o) {
@@ -31,6 +27,4 @@ public class User {
     public int hashCode() {
         return Objects.hash(id, name);
     }
-
-    private String name;
 }

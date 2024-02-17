@@ -78,7 +78,8 @@ public class CarService {
 
     public Car update(Integer id, UpdateCarCommand updateCarCommand) {
 
-        Car foundCar = cars.stream().filter(elem -> elem.getId().equals(id)).findFirst()
+        Car foundCar = cars.stream()
+                .filter(elem -> elem.getId().equals(id)).findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Авто с таким \\\"id\\\" не найдено\""));
         User byId = userService.getById(updateCarCommand.getUserId());
 
