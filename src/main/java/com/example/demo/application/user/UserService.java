@@ -3,25 +3,32 @@ package com.example.demo.application.user;
 import com.example.demo.domain.entity.User;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class UserService {
-    public static List<User> users = List.of(
-            User.builder()
+    public static List<User> users = new ArrayList <>();
+    
+    public UserService() {
+        appendUsers();
+    }
+    
+    private static void appendUsers() {
+        users.add(User.builder()
                     .id(123)
                     .name("dasdas")
-                    .build(),
-            User.builder()
+                    .build());
+        users.add(User.builder()
                     .id(3123)
                     .name("dasdacccccc")
-                    .build(),
-            User.builder()
+                    .build());
+        users.add(User.builder()
                     .id(91239)
                     .name("czxxcz")
-                    .build()
-    );
-
+                    .build());
+    }
+    
     public List<User> getAll() {
         return users;
     }
@@ -55,6 +62,6 @@ public class UserService {
     }
 
     public void delete(Integer id) {
-        users.removeIf(u -> u.getId() == id);
+        users.removeIf(u -> u.getId().intValue() == id.intValue());
     }
 }

@@ -14,11 +14,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 @AllArgsConstructor
-class UserController {
+public class UserController {
+    
     private UserService service;
     private ModelMapper modelMapper;
-
-
+    
     /* REST API
     1) получить все данные: GET: name_of_entity
     2) получить 1 запись: GET name_of_entity/id
