@@ -7,7 +7,12 @@ import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
