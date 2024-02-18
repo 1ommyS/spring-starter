@@ -3,12 +3,11 @@ package com.example.demo.application.car;
 import com.example.demo.application.user.UserService;
 import com.example.demo.domain.entity.Car;
 import com.example.demo.domain.entity.User;
-import com.example.demo.presentation.user.dto.commands.CreateCarCommand;
-import com.example.demo.presentation.user.dto.commands.UpdateCarCommand;
+import com.example.demo.presentation.car.dto.commands.CreateCarCommand;
+import com.example.demo.presentation.car.dto.commands.UpdateCarCommand;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PatchMapping;
 
 import java.sql.Date;
 import java.time.Instant;
@@ -98,7 +97,7 @@ public class CarService {
         if (updateCarCommand.getAmountOfSelled() != null && !updateCarCommand.getAmountOfSelled().equals(foundCar.getAmountOfSelled())) {
             foundCar.setAmountOfSelled(updateCarCommand.getAmountOfSelled());
         }
-        if (!foundCar.getOwner().equals(byId) ) {
+        if (!foundCar.getOwner().equals(byId)) {
             foundCar.setOwner(byId);
         }
 
