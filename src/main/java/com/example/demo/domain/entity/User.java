@@ -1,5 +1,6 @@
 package com.example.demo.domain.entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Objects;
@@ -11,7 +12,11 @@ import java.util.Objects;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "users")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
 

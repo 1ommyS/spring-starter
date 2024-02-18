@@ -1,62 +1,43 @@
 package com.example.demo.application.user;
 
 import com.example.demo.domain.entity.User;
+import com.example.demo.infrastructure.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
-    public static List<User> users = List.of(
-            User.builder()
-                    .id(123)
-                    .name("dasdas")
-                    .build(),
-            User.builder()
-                    .id(3123)
-                    .name("dasdacccccc")
-                    .build(),
-            User.builder()
-                    .id(91239)
-                    .name("czxxcz")
-                    .build()
-    );
+    private final UserRepository repository;
 
     public List<User> getAll() {
-        return users;
+        return repository.findAll();
     }
 
     public User getById(Integer id) {
-        return users.stream()
-                .filter(user -> user.getId().equals(id)).findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Не найден пользователь с таким \"id\""));
+        return repository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     public User create(User userFromCommand) {
-        userFromCommand.setId((int) (Math.random() * 1000));
+        User user = repository.save(userFromCommand);
 
-        users.add(userFromCommand);
-
-        return userFromCommand;
+        return user;
     }
 
     public User update(Integer id, User userFromCommand) {
-        User userFromDb = users.stream()
-                .filter(user -> user.getId() == id)
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("такого пользователя нет"));
+        var user = getById(id);
 
-        if (!userFromDb.getName().equals(
-                userFromCommand.getName()
-        )) userFromDb.setName(
-                userFromCommand.getName()
-        );
+        if (!user.getName().equals(userFromCommand.getName())) user.setName(userFromCommand.getName());
 
+        User saved = repository.save(user);
 
-        return userFromDb;
+        return saved;
     }
 
     public void delete(Integer id) {
-        users.removeIf(u -> u.getId() == id);
+        repository.deleteById(id);
     }
 }

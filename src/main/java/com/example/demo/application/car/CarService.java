@@ -20,39 +20,8 @@ public class CarService {
 
     private final UserService userService;
     private final ModelMapper modelMapper;
-    private static Set<Car> cars = new HashSet<>();
 
-    static {
-        cars.add(Car.builder()
-                .id(123)
-                .title("VAZ")
-                .price(1244421)
-                .createdAt(Date.from(Instant.now()))
-                .selledAt(Date.from(Instant.now()))
-                .amountOfSelled(1236)
-                .owner(UserService.users.get(0))
-                .build());
-
-        cars.add(Car.builder()
-                .id(653)
-                .title("BMW")
-                .price(1255121212)
-                .createdAt(Date.from(Instant.now()))
-                .selledAt(Date.from(Instant.now()))
-                .amountOfSelled(25533)
-                .owner(UserService.users.get(1))
-                .build());
-
-        cars.add(Car.builder()
-                .id(123)
-                .title("KIA")
-                .price(5522146)
-                .createdAt(Date.from(Instant.now()))
-                .selledAt(Date.from(Instant.now()))
-                .amountOfSelled(9852)
-                .owner(UserService.users.get(2))
-                .build());
-    }
+    private final Set<Car> cars = new HashSet<>();
 
     public Set<Car> getAll() {
         return cars;
