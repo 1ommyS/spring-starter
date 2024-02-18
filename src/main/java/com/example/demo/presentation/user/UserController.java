@@ -15,6 +15,7 @@ import java.util.List;
 @RequestMapping("/users")
 @AllArgsConstructor
 class UserController {
+
     private UserService service;
     private ModelMapper modelMapper;
 

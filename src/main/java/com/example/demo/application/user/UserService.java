@@ -27,7 +27,9 @@ public class UserService {
     }
 
     public User getById(Integer id) {
-        return users.stream().filter(user -> user.getId().equals(id)).findFirst().orElse(null);
+        return users.stream()
+                .filter(user -> user.getId().equals(id)).findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Не найден пользователь с таким \"id\""));
     }
 
     public User create(User userFromCommand) {
