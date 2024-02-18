@@ -3,8 +3,11 @@ package com.example.demo.application.car;
 import com.example.demo.application.user.UserService;
 import com.example.demo.domain.entity.Car;
 import com.example.demo.domain.entity.User;
+import com.example.demo.infrastructure.repository.CarRepository;
+import com.example.demo.infrastructure.repository.UserRepository;
 import com.example.demo.presentation.car.dto.commands.CreateCarCommand;
 import com.example.demo.presentation.car.dto.commands.UpdateCarCommand;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -20,15 +24,16 @@ public class CarService {
 
     private final UserService userService;
     private final ModelMapper modelMapper;
+    private final CarRepository carRepository;
 
     private final Set<Car> cars = new HashSet<>();
 
-    public Set<Car> getAll() {
-        return cars;
+    public List<Car> getAll() {
+        return carRepository.findAll();
     }
 
     public Car getById(Integer id) {
-        return cars.stream().filter(elem -> elem.getId().equals(id)).findFirst().orElse(null);
+        return carRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     public Car create(CreateCarCommand createCarCommand) {
@@ -40,15 +45,13 @@ public class CarService {
         Car newCar = modelMapper.map(createCarCommand, Car.class);
         newCar.setId((int) (Math.random() * 1000));
         newCar.setOwner(byId);
-        cars.add(newCar);
+        carRepository.save(newCar);
         return newCar;
     }
 
     public Car update(Integer id, UpdateCarCommand updateCarCommand) {
 
-        Car foundCar = cars.stream()
-                .filter(elem -> elem.getId().equals(id)).findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Авто с таким \\\"id\\\" не найдено\""));
+        Car foundCar = carRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Авто с таким \"id\" не найдено\""));
         User byId = userService.getById(updateCarCommand.getUserId());
 
         if (updateCarCommand.getTitle() != null && !updateCarCommand.getTitle().equals(foundCar.getTitle())) {
@@ -69,17 +72,12 @@ public class CarService {
         if (!foundCar.getOwner().equals(byId)) {
             foundCar.setOwner(byId);
         }
-
-        return foundCar;
+        Car savedCar = carRepository.save(foundCar);
+        return savedCar;
     }
 
     public void delete(Integer id) {
-        Car findedCar = cars.stream().filter(elem -> elem.getId().equals(id)).findFirst().orElse(null);
-        if (findedCar == null) {
-            return;
-        }
-
-        cars.remove(findedCar);
+        carRepository.deleteById(id);
     }
 
 }
