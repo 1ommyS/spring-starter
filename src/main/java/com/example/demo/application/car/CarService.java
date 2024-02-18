@@ -7,6 +7,7 @@ import com.example.demo.infrastructure.repository.CarRepository;
 import com.example.demo.infrastructure.repository.UserRepository;
 import com.example.demo.presentation.car.dto.commands.CreateCarCommand;
 import com.example.demo.presentation.car.dto.commands.UpdateCarCommand;
+import com.example.demo.presentation.car.dto.queries.CarQuery;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -43,7 +44,6 @@ public class CarService {
         }
 
         Car newCar = modelMapper.map(createCarCommand, Car.class);
-        newCar.setId((int) (Math.random() * 1000));
         newCar.setOwner(byId);
         carRepository.save(newCar);
         return newCar;
@@ -80,4 +80,13 @@ public class CarService {
         carRepository.deleteById(id);
     }
 
+    public List<Car> getByOwnerId(Integer ownerId) {
+        User user = userService.getById(ownerId);
+
+        return carRepository.findByOwner(user);
+    }
+
+    public List<Car> getByOwnerName(String ownerName) {
+        return carRepository.findByOwner_NameAllIgnoreCase(ownerName);
+    }
 }

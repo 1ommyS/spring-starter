@@ -44,6 +44,20 @@ public class CarController {
         return modelMapper.map(byId, CarQuery.class);
     }
 
+    @GetMapping("/user/{ownerId}")
+    public List<CarQuery> getByOwnerId(@PathVariable Integer ownerId) {
+        return carService.getByOwnerId(ownerId).stream()
+                .map(car -> modelMapper.map(car, CarQuery.class))
+                .toList();
+    }
+
+    @GetMapping("/user-name/{ownerName}")
+    public List<CarQuery> getByOwnerName(@PathVariable String ownerName) {
+        return carService.getByOwnerName(ownerName).stream()
+                .map(car -> modelMapper.map(car, CarQuery.class))
+                .toList();
+    }
+
     @PostMapping
     public CarQuery createCar(@RequestBody CreateCarCommand createCarCommand) {
         Car car = carService.create(createCarCommand);
