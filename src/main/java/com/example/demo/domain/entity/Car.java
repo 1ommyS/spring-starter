@@ -1,5 +1,6 @@
 package com.example.demo.domain.entity;
 
+import com.example.demo.domain.valueobj.BaseClass;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,33 +21,19 @@ import java.util.Objects;
 @AllArgsConstructor
 @Entity
 @Table(name = "cars")
-public class Car {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
+public class Car extends BaseClass {
     private String title;
 
     private Integer price;
 
-    private Date createdAt;
-    private Date selledAt;
     private Integer amountOfSelled;
+
+    @ManyToOne
+    private Company company;
 
     // как правильно обрабатывать владельца в комманде/квери, подсказка: Jackson поможет
     @ManyToOne
     private User owner;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Car car = (Car) o;
-        return Objects.equals(id, car.id) && Objects.equals(title, car.title) && Objects.equals(price, car.price) && Objects.equals(createdAt, car.createdAt) && Objects.equals(selledAt, car.selledAt) && Objects.equals(amountOfSelled, car.amountOfSelled) && Objects.equals(owner, car.owner);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, title, price, createdAt, selledAt, amountOfSelled, owner);
-    }
 }

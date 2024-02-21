@@ -5,14 +5,17 @@ import com.example.demo.domain.entity.Car;
 import com.example.demo.presentation.car.dto.commands.CreateCarCommand;
 import com.example.demo.presentation.car.dto.commands.UpdateCarCommand;
 import com.example.demo.presentation.car.dto.queries.CarQuery;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/cars")
+@Validated
 @AllArgsConstructor
 public class CarController {
 
@@ -59,7 +62,7 @@ public class CarController {
     }
 
     @PostMapping
-    public CarQuery createCar(@RequestBody CreateCarCommand createCarCommand) {
+    public CarQuery createCar(@RequestBody @Valid CreateCarCommand createCarCommand) {
         Car car = carService.create(createCarCommand);
         if (car == null) {
             throw new RuntimeException("Произошла ошибка при создании авто");

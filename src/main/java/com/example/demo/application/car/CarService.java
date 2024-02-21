@@ -27,7 +27,6 @@ public class CarService {
     private final ModelMapper modelMapper;
     private final CarRepository carRepository;
 
-    private final Set<Car> cars = new HashSet<>();
 
     public List<Car> getAll() {
         return carRepository.findAll();
@@ -63,8 +62,8 @@ public class CarService {
         if (updateCarCommand.getCreatedAt() != null && !updateCarCommand.getCreatedAt().equals(foundCar.getCreatedAt())) {
             foundCar.setCreatedAt(updateCarCommand.getCreatedAt());
         }
-        if (updateCarCommand.getSelledAt() != null && !updateCarCommand.getSelledAt().equals(foundCar.getSelledAt())) {
-            foundCar.setSelledAt(updateCarCommand.getSelledAt());
+        if (updateCarCommand.getSelledAt() != null && !updateCarCommand.getSelledAt().equals(foundCar.getDeletedAt())) {
+            foundCar.setDeletedAt(updateCarCommand.getSelledAt());
         }
         if (updateCarCommand.getAmountOfSelled() != null && !updateCarCommand.getAmountOfSelled().equals(foundCar.getAmountOfSelled())) {
             foundCar.setAmountOfSelled(updateCarCommand.getAmountOfSelled());
